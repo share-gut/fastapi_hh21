@@ -47,7 +47,6 @@ class Location(LocationBase):
 class ImageBase(BaseModel):
     name: str
     url: Optional[str]
-    content: Optional[bytes]
     mime_type: Optional[str]
     good_id: Optional[int]
     share_id: Optional[int]
@@ -60,10 +59,19 @@ class ImageCreate(ImageBase):
 class Image(ImageBase):
     id: int
     user_id: int
+    content: Optional[bytes]
     
     class Config:
         orm_mode = True
+
+
+class ImageNoContent(ImageBase):
+    id: int
+    user_id: int
     
+    class Config:
+        orm_mode = True
+
 
 class ShareBase(BaseModel):
     good_id: int
@@ -99,7 +107,7 @@ class User(UserBase):
     goods: List[Good] = []
     locations: List[Location] = []
     shares: List[Share] = []
-    images: List[Image] = []
+    images: List[ImageNoContent] = []
 
     class Config:
         orm_mode = True

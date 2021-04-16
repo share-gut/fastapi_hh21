@@ -3,6 +3,7 @@ from typing import List
 
 from fastapi import FastAPI, Depends, HTTPException, File
 from fastapi.responses import Response
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from db import crud, models, schemas
@@ -11,6 +12,17 @@ from db.database import SessionLocal, engine
 
 app = FastAPI()
 
+origins = [
+    "*",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def get_db():
     db = SessionLocal()
@@ -64,6 +76,11 @@ def read_locations(skip: int = 0, limit: int = 100, db: Session = Depends(get_db
     return locations
 
 
+@app.put("/locations/{location_id}", response_model=schemas.Location)
+def update_location(location_id: int, location: schemas.LocationUpdate, db: Session = Depends(get_db)):
+    return crud.update_location(db, location, location_id)
+
+
 @app.post("/users/{user_id}/shares/", response_model=schemas.Share)
 def create_share_for_user(user_id: int, share: schemas.ShareCreate, db: Session = Depends(get_db)):
     return crud.create_share(db=db, share=share, user_id=user_id)
@@ -73,6 +90,11 @@ def create_share_for_user(user_id: int, share: schemas.ShareCreate, db: Session 
 def read_locations(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     shares = crud.get_shares(db, skip=skip, limit=limit)
     return shares
+
+
+@app.put("/shares/{share_id}", response_model=schemas.Share)
+def update_share(share_id: int, share: schemas.ShareUpdate, db: Session = Depends(get_db)):
+    return crud.update_share(db, share=share, share_id=share_id)
 
 
 @app.post("/users/{user_id}/images/", response_model=schemas.Image)
@@ -91,3 +113,8 @@ def read_image(image_id: int, db: Session = Depends(get_db)):
     db_image = crud.get_image(db, image_id=image_id)
     content = base64.b64decode(db_image.content)
     return Response(content=content, media_type=db_image.mime_type)
+
+
+@app.put("/images/{image_id}", response_model=schemas.ImageNoContent)
+def update_image(image_id: int, image: schemas.ImageUpdate, db: Session = Depends(get_db)):
+    return crud.update_image(db, image=image, image_id=image_id)

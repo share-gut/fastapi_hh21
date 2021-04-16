@@ -18,6 +18,13 @@ class LocationCreate(LocationBase):
     pass
 
 
+class LocationUpdate(LocationBase):
+    public: bool
+    
+    class Config:
+        orm_mode = True
+
+
 class Location(LocationBase):
     id: int
     user_id: int
@@ -36,6 +43,10 @@ class ImageBase(BaseModel):
     
 
 class ImageCreate(ImageBase):
+    pass
+
+
+class ImageUpdate(ImageBase):
     pass
 
 
@@ -65,6 +76,10 @@ class GoodCreate(GoodBase):
     pass
 
 
+class GoodUpdate(GoodBase):
+    pass
+
+
 class Good(GoodBase):
     id: int
     owner_id: int
@@ -82,6 +97,11 @@ class ShareBase(BaseModel):
 class ShareCreate(ShareBase):
     pass
 
+
+class ShareUpdate(ShareBase):
+    planned_end_date: Optional[datetime] = None
+    end_date: Optional[datetime] = None
+    
 
 class Share(ShareBase):
     id: int

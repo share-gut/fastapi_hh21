@@ -81,7 +81,7 @@ def create_image_for_user(user_id: int, image: schemas.ImageCreate, db: Session 
 
 @app.post("/files/{image_id}")
 async def create_file(image_id: int, file: bytes = File(...), db: Session = Depends(get_db)):
-    crud.add_image_file(db, image_id=image_id, content=file)
+    crud.add_image_file(db, image_id=image_id, content=base64.b64encode(file))
     return {"file_size": len(file)}
 
 

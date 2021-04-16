@@ -98,7 +98,7 @@ class User(UserBase):
     goods: List[Good] = []
     locations: List[Location] = []
     shares: List[Share] = []
-    # images: List[Image] = []
+    images: List[Image] = []
 
     class Config:
         orm_mode = True

@@ -5,23 +5,6 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class GoodBase(BaseModel):
-    title: str
-    description: Optional[str] = None
-
-
-class GoodCreate(GoodBase):
-    pass
-
-
-class Good(GoodBase):
-    id: int
-    owner_id: int
-
-    class Config:
-        orm_mode = True
-
-
 class LocationBase(BaseModel):
     name: str
     zip: str
@@ -71,6 +54,24 @@ class ImageNoContent(ImageBase):
     
     class Config:
         orm_mode = True
+        
+        
+class GoodBase(BaseModel):
+    title: str
+    description: Optional[str] = None
+
+
+class GoodCreate(GoodBase):
+    pass
+
+
+class Good(GoodBase):
+    id: int
+    owner_id: int
+    images: List[ImageNoContent] = []
+
+    class Config:
+        orm_mode = True
 
 
 class ShareBase(BaseModel):
@@ -87,6 +88,7 @@ class Share(ShareBase):
     user_id: int
     planned_end_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
+    images: List[ImageNoContent] = []
     
     class Config:
         orm_mode = True

@@ -49,7 +49,7 @@ def get_locations(db: Session, skip: int = 0, limit: int = 100):
 
 
 def create_share(db: Session, share: schemas.ShareCreate, user_id: int):
-    db_share = models.Location(**share.dict(), user_id=user_id)
+    db_share = models.Share(**share.dict(), user_id=user_id)
     db.add(db_share)
     db.commit()
     db.refresh(db_share)

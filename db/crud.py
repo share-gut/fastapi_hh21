@@ -75,3 +75,7 @@ def add_image_file(db: Session, image_id: int, content: bytes):
     db.commit()
     db.refresh(db_image)
     return db_image
+
+
+def get_image(db: Session, image_id: int):
+    return db.query(models.Image).filter(models.Image.id == image_id).first()

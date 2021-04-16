@@ -46,6 +46,11 @@ class Location(LocationBase):
 
 class ImageBase(BaseModel):
     name: str
+    url: Optional[str]
+    content: Optional[bytes]
+    mime_type: Optional[str]
+    good_id: Optional[int]
+    share_id: Optional[int]
     
 
 class ImageCreate(ImageBase):
@@ -54,11 +59,7 @@ class ImageCreate(ImageBase):
 
 class Image(ImageBase):
     id: int
-    url: Optional[str]
-    content: Optional[bytes]
     user_id: int
-    good_id: Optional[int]
-    share_id: Optional[int]
     
     class Config:
         orm_mode = True

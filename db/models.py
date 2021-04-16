@@ -58,6 +58,7 @@ class Image(Base):
     name = Column(String, index=True)
     url = Column(String)
     content = Column(LargeBinary)
+    mime_type = Column(String, default="image/jpeg")
     good_id = Column(Integer, ForeignKey("goods.id"))
     share_id = Column(Integer, ForeignKey("shares.id"))
     

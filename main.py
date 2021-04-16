@@ -1,7 +1,8 @@
 import base64
 from typing import List
 
-from fastapi import FastAPI, Depends, HTTPException, File, UploadFile
+from fastapi import FastAPI, Depends, HTTPException, File
+from fastapi.responses import Response
 from sqlalchemy.orm import Session
 
 from db import crud, models, schemas
@@ -85,6 +86,8 @@ async def create_file(image_id: int, file: bytes = File(...), db: Session = Depe
     return {"file_size": len(file)}
 
 
-@app.post("/uploadfile/")
-async def create_upload_file(file: UploadFile = File(...)):
-    return {"filename": file.filename}
+@app.get("/image/{image_id}", response_class=Response, response_description="Binary image data, content-type as stored in the image model")
+def read_image(image_id: int, db: Session = Depends(get_db)):
+    db_image = crud.get_image(db, image_id=image_id)
+    content = base64.b64decode(db_image.content)
+    return Response(content=content, media_type=db_image.mime_type)

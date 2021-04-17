@@ -118,11 +118,11 @@ class Share(ShareBase):
 
 
 class UserBase(BaseModel):
-    email: str
+    name: str
 
 
 class UserCreate(UserBase):
-    password: str
+    email: str
 
 
 class UserUpdate(UserBase):

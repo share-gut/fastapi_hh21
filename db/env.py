@@ -44,6 +44,7 @@ def run_migrations_offline():
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        render_as_batch=config.get_main_option('sqlalchemy.url').startswith('sqlite:///')
     )
 
     with context.begin_transaction():

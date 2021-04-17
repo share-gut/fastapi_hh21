@@ -34,6 +34,7 @@ class Location(Base):
 
     user = relationship("User", back_populates="locations")
     goods = relationship("Good", back_populates="location")
+    shares = relationship("Share", back_populates="location")
     
 
 class Good(Base):
@@ -76,6 +77,8 @@ class Share(Base):
     start_date = Column(DateTime, index=True)
     planned_end_date = Column(DateTime)
     end_date = Column(DateTime)
+    location_id = Column(Integer, ForeignKey("locations.id"))
 
     images = relationship("Image", back_populates="shares")
     user = relationship("User", back_populates="shares")
+    location = relationship("Location", back_populates="shares")

@@ -73,16 +73,17 @@ class GoodBase(BaseModel):
 
 
 class GoodCreate(GoodBase):
-    pass
+    location_id: Optional[int]
 
 
 class GoodUpdate(GoodBase):
-    pass
+    location_id: Optional[int]
 
 
 class Good(GoodBase):
     id: int
     owner_id: int
+    location: Optional[Location] = None
     images: List[ImageNoContent] = []
 
     class Config:
@@ -95,12 +96,13 @@ class ShareBase(BaseModel):
     
     
 class ShareCreate(ShareBase):
-    pass
+    location_id: Optional[int]
 
 
 class ShareUpdate(ShareBase):
     planned_end_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
+    location_id: Optional[int]
     
 
 class Share(ShareBase):
@@ -109,6 +111,7 @@ class Share(ShareBase):
     planned_end_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
     images: List[ImageNoContent] = []
+    location: Optional[Location] = None
     
     class Config:
         orm_mode = True

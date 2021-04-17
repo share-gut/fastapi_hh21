@@ -10,7 +10,7 @@ from db import crud, models, schemas
 from db.database import SessionLocal, engine
 
 
-app = FastAPI(title='Sharegood API', description='PoC backend for sharegood. Create, read, update and delete users, goods, shares, locations and images. Also supports image uploads. WARNING: there is no auth whatsoever.')
+app = FastAPI(title='Sharegut API', description='PoC backend for sharegut. Create, read, update and delete users, goods, shares, locations and images. Also supports image uploads. WARNING: there is no auth whatsoever.')
 
 origins = [
     "*",

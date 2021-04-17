@@ -24,8 +24,11 @@ def create_user(db: Session, user: schemas.UserCreate):
     return db_user
 
 
-def get_goods(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Good).offset(skip).limit(limit).all()
+def get_goods(db: Session, skip: int = 0, limit: int = 100, q: str = ""):
+    if q is not None:
+        return db.query(models.Good).filter(models.Good.title.ilike(q)).offset(skip).limit(limit).all()
+    else:
+        return db.query(models.Good).offset(skip).limit(limit).all()
 
 
 def create_user_good(db: Session, good: schemas.GoodCreate, user_id: int):

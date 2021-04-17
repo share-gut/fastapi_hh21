@@ -1,5 +1,5 @@
 import base64
-from typing import List
+from typing import List, Optional
 
 from fastapi import FastAPI, Depends, HTTPException, File
 from fastapi.responses import Response
@@ -65,8 +65,8 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
 
 
 @app.get("/goods/", response_model=List[schemas.Good])
-def read_goods(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    goods = crud.get_goods(db, skip=skip, limit=limit)
+def read_goods(skip: int = 0, limit: int = 100, q: Optional[str] = None, db: Session = Depends(get_db)):
+    goods = crud.get_goods(db, skip=skip, limit=limit, q=q)
     return goods
 
 

@@ -30,10 +30,7 @@ def create_user(db: Session, user: schemas.UserCreate):
     return db_user
 
 
-def get_goods(db: Session, email: str, skip: int = 0, limit: int = 100, q: str = ""):
-    u = db.query(models.User).filter(models.User.email == email).first()
-    if not u:
-        return None
+def get_goods(db: Session, skip: int = 0, limit: int = 100, q: str = ""):
     if q is not None:
         return db.query(models.Good).filter(models.Good.title.ilike(q)).offset(skip).limit(limit).all()
     else:

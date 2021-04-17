@@ -73,8 +73,8 @@ def delete_user(user_id: int, email: str, db: Session = Depends(get_db)):
 
 
 @app.get("/goods/", response_model=List[schemas.Good])
-def read_goods(email: str, skip: int = 0, limit: int = 100, q: Optional[str] = None, db: Session = Depends(get_db)):
-    res = crud.get_goods(db, email, skip=skip, limit=limit, q=q)
+def read_goods(skip: int = 0, limit: int = 100, q: Optional[str] = None, db: Session = Depends(get_db)):
+    res = crud.get_goods(db, skip=skip, limit=limit, q=q)
     if not res:
         raise HTTPException(status_code=401, detail="Not authorized")
     return res

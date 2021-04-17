@@ -208,7 +208,7 @@ def delete_good(db: Session, email: str, good_id: int):
     u = db.query(models.User).filter(models.User.email == email).first()
     if not u:
         return None
-    res = db.query(models.Good).filter(models.Good.user_id == u.id).filter(models.Good.id == good_id).delete()
+    res = db.query(models.Good).filter(models.Good.owner_id == u.id).filter(models.Good.id == good_id).delete()
     db.commit()
     return res
 

@@ -35,9 +35,9 @@ def get_goods(db: Session, email: str, skip: int = 0, limit: int = 100, q: str =
     if not u:
         return None
     if q is not None:
-        return db.query(models.Good).filter(models.Good.owner_id == u.id).filter(models.Good.title.ilike(q)).offset(skip).limit(limit).all()
+        return db.query(models.Good).filter(models.Good.title.ilike(q)).offset(skip).limit(limit).all()
     else:
-        return db.query(models.Good).filter(models.Good.owner_id == u.id).offset(skip).limit(limit).all()
+        return db.query(models.Good).offset(skip).limit(limit).all()
 
 
 def create_user_good(db: Session, email: str, good: schemas.GoodCreate, user_id: int):

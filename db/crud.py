@@ -14,6 +14,10 @@ def get_user_by_email(db: Session, email: str):
     return db.query(models.User).filter(models.User.email == email).first()
 
 
+def get_user_by_name(db: Session, name: str):
+    return db.query(models.User).filter(models.User.name == name).first()
+
+
 def get_users(db: Session, email: str, skip: int = 0, limit: int = 100):
     u = db.query(models.User).filter(models.User.email == email).first()
     if not u:

@@ -10,7 +10,7 @@ from db import crud, models, schemas
 from db.database import SessionLocal, engine
 
 
-app = FastAPI()
+app = FastAPI(title='Sharegood API', description='PoC backend for sharegood. Create, read, update and delete users, goods, shares, locations and images. Also supports image uploads. WARNING: there is no auth whatsoever.')
 
 origins = [
     "*",
@@ -137,10 +137,9 @@ def create_image_for_user(user_id: int, image: schemas.ImageCreate, db: Session 
     return crud.create_image(db=db, image=image, user_id=user_id)
 
 
-@app.post("/upload/images/{image_id}")
+@app.post("/upload/images/{image_id}", response_model=schemas.ImageNoContent)
 def upload_image_content(image_id: int, file: bytes = File(...), db: Session = Depends(get_db)):
-    crud.add_image_file(db, image_id=image_id, content=base64.b64encode(file))
-    return {"file_size": len(file)}
+    return crud.add_image_file(db, image_id=image_id, content=base64.b64encode(file))
 
 
 @app.get("/images/{image_id}", response_class=Response, response_description="Binary image data, content-type as stored in the image model")

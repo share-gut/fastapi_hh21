@@ -51,6 +51,14 @@ def read_users(email: str, skip: int = 0, limit: int = 100, db: Session = Depend
     return users
 
 
+@app.get("/users/me", response_model=schemas.User)
+def read_user_me(email: str, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return db_user
+
+
 @app.get("/users/{user_id}", response_model=schemas.User)
 def read_user(user_id: int, email: str, db: Session = Depends(get_db)):
     db_user = crud.get_user(db, email, user_id=user_id)
